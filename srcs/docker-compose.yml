@@ -1,0 +1,49 @@
+version: "3.9"
+env_file: .env
+services:
+
+  mariadb:
+    container_name: mariadb
+    build:
+      context: ./mariadb
+      networks: inception-network
+    environment:
+      - COMPOSE_PROJECT_NAME
+    ports:
+      - "3306"
+    volume:
+      # - db_data:/var/lib/mysql
+    restart: always
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./wordpress
+      networks: inception-network
+    environment:
+      - COMPOSE_PROJECT_NAME
+    depends_on:
+      - mariadb
+    ports:
+      - "9000"
+    volume:
+      - wordpress_data:/var/www/html
+    restart: always
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      networks: inception-network
+    environment:
+      - COMPOSE_PROJECT_NAME
+    ports:
+      - "443"
+    restart: always
+
+networks:
+  inception-network: {}
+
+volumes:
+  db_data: {}
+  wordpress_data: {}
