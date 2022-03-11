@@ -1,8 +1,8 @@
 # Specifies the Parent Image
 FROM debian:buster
 
-# Set the working directory for RUN/CMD/ENTRYPOINT/COPY/ADD
-WORKDIR /home/
+# # Set the working directory for RUN/CMD/ENTRYPOINT/COPY/ADD
+# WORKDIR /home/
 
 # Execute commands to make an image
 RUN apt-get update -y && apt-get upgrade -y
