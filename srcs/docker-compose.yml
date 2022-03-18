@@ -11,8 +11,10 @@ services:
       - COMPOSE_PROJECT_NAME
     ports:
       - "3306"
-    volume:
-      - db_data:/var/lib/mysql
+    volumes:
+      - type: volume
+        source: db_data
+        target: /var/lib/mysql
     restart: always
 
   wordpress:
@@ -26,8 +28,10 @@ services:
       - mariadb
     ports:
       - "9000"
-    volume:
-      - wordpress_data:/var/www/html
+    volumes:
+      - type: volume
+        source: wordpress_data
+        target: /var/www/html
     restart: always
 
   nginx:
