@@ -8,6 +8,6 @@ RUN apt-get install -y mariadb-server mariadb-client
 
 COPY conf/ .
 
-CMD ["sh", "mariadb.sh"]
+RUN service mysql start && mariadb < wordpress.sql
 
 ENTRYPOINT ["mysqld"]
