@@ -1,10 +1,9 @@
 all:
-		mkdir /home/mberne/data/db /home/mberne/data/wp
-		cd ./srcs
-		docker-compose up --build
+		mkdir -p /home/mberne/data/db /home/mberne/data/wp
+		docker-compose --project-directory=srcs up --build
 
 clean:
-		docker-compose down --volumes
+		docker-compose --project-directory=srcs down --volumes
 		docker system prune
 		rm -r /home/mberne/data/db /home/mberne/data/wp
 
