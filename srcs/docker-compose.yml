@@ -9,8 +9,8 @@ services:
       networks: inception-network
     environment:
       - COMPOSE_PROJECT_NAME
-    ports:
-      - "3306"
+    # ports:
+    #   - "3306"
     volumes:
       - type: volume
         source: db_data
@@ -26,8 +26,8 @@ services:
       - COMPOSE_PROJECT_NAME
     depends_on:
       - mariadb
-    ports:
-      - "9000"
+    # ports:
+    #   - "9000"
     volumes:
       - type: volume
         source: wordpress_data
