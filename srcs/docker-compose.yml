@@ -1,53 +1,60 @@
 version: "3.9"
-env_file: .env
 services:
 
   mariadb:
     container_name: mariadb
-    build:
-      context: ./mariadb
-      networks: inception-network
+    build: ./requirements/mariadb
+    networks:
+      - inception-network
     environment:
       - COMPOSE_PROJECT_NAME
-    # ports:
-    #   - "3306"
     volumes:
-      - type: volume
-        source: db_data
-        target: /home/mberne/data
+      - db_data:/var/lib/mysql/
     # restart: always
 
   wordpress:
     container_name: wordpress
-    build:
-      context: ./wordpress
-      networks: inception-network
+    build: ./requirements/wordpress
+    networks:
+      - inception-network
     environment:
       - COMPOSE_PROJECT_NAME
     depends_on:
       - mariadb
-    # ports:
-    #   - "9000"
     volumes:
-      - type: volume
-        source: wordpress_data
-        target: /home/mberne/data
+      - wordpress_data:/var/www/html/
     # restart: always
 
   nginx:
     container_name: nginx
-    build:
-      context: ./nginx
-      networks: inception-network
+    build: ./requirements/nginx
+    networks:
+      - inception-network
     environment:
       - COMPOSE_PROJECT_NAME
     ports:
-      - "443"
+      - "443:443"
+    volumes:
+      - wordpress_data:/var/www/html/
     # restart: always
 
 networks:
-  inception-network: {}
+  inception-network:
+    name: inception-network
+    driver: bridge
 
 volumes:
-  db_data: {}
-  wordpress_data: {}
+  db_data:
+    name: db_data
+    driver: local
+    driver_opts:
+      device: /home/mberne/data/db
+      o: bind
+      type: none
+  wordpress_data:
+    name: wordpress_data
+    driver: local
+    driver_opts:
+      device: /home/mberne/data/wp
+      o: bind
+      type: none

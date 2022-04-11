@@ -6,8 +6,6 @@ RUN apt-get update -y && apt-get upgrade -y
 
 RUN apt-get install -y nginx openssl
 
-EXPOSE 443
-
 COPY conf/ .
 
 RUN rm -rf /etc/nginx/sites-enabled/default && mv /home/nginx.conf /etc/nginx/sites-enabled/default
