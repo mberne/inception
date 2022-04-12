@@ -3,6 +3,7 @@ services:
 
   mariadb:
     container_name: mariadb
+    init: true
     build: ./requirements/mariadb
     networks:
       - inception-network
@@ -14,6 +15,7 @@ services:
 
   wordpress:
     container_name: wordpress
+    init: true
     build: ./requirements/wordpress
     networks:
       - inception-network
@@ -22,11 +24,12 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - wordpress_data:/var/www/html/
+      - wp_data:/var/www/html/
     # restart: always
 
   nginx:
     container_name: nginx
+    init: true
     build: ./requirements/nginx
     networks:
       - inception-network
@@ -35,7 +38,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress_data:/var/www/html/
+      - wp_data:/var/www/html/
     # restart: always
 
 networks:
@@ -51,8 +54,8 @@ volumes:
       device: /home/mberne/data/db
       o: bind
       type: none
-  wordpress_data:
-    name: wordpress_data
+  wp_data:
+    name: wp_data
     driver: local
     driver_opts:
       device: /home/mberne/data/wp

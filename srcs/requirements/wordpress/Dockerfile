@@ -15,13 +15,19 @@ RUN wget http://fr.wordpress.org/latest-fr_FR.tar.gz \
 
 WORKDIR /var/www/html/wordpress
 
-COPY conf/ .
+COPY conf/wp-config.php .
 
 RUN rm -rf wp-config-sample.php
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp
+
+WORKDIR /etc/php/7.3/fpm/pool.d
+
+RUN rm www.conf
+
+COPY conf/www.conf .
 
 WORKDIR /home/
 
