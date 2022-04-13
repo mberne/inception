@@ -12,4 +12,4 @@ COPY conf/ .
 
 RUN service mysql start && mariadb < wordpress.sql
 
-ENTRYPOINT ["mysqld"]
+CMD ["mysqld", "--bind-address=0.0.0.0"]

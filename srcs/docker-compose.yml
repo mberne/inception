@@ -5,41 +5,51 @@ services:
     container_name: mariadb
     init: true
     build: ./requirements/mariadb
-    networks:
-      - inception-network
     environment:
       - COMPOSE_PROJECT_NAME
+      - DB_NAME=$DB_NAME
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+    networks:
+      - inception-network
     volumes:
       - db_data:/var/lib/mysql/
-    # restart: always
+    restart: always
 
   wordpress:
     container_name: wordpress
     init: true
     build: ./requirements/wordpress
-    networks:
-      - inception-network
     environment:
       - COMPOSE_PROJECT_NAME
+      - DOMAIN_NAME=$DOMAIN_NAME
+      - DB_NAME=$DB_NAME
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+    networks:
+      - inception-network
     depends_on:
       - mariadb
     volumes:
       - wp_data:/var/www/html/
-    # restart: always
+    restart: always
 
   nginx:
     container_name: nginx
     init: true
     build: ./requirements/nginx
-    networks:
-      - inception-network
     environment:
       - COMPOSE_PROJECT_NAME
+      - DOMAIN_NAME=$DOMAIN_NAME
+    networks:
+      - inception-network
     ports:
       - "443:443"
+    depends_on:
+      - wordpress
     volumes:
       - wp_data:/var/www/html/
-    # restart: always
+    restart: always
 
 networks:
   inception-network:
