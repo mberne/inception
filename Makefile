@@ -9,7 +9,7 @@ clean:	down
 		docker system prune -a
 
 fclean:	clean
-		rm -rf /home/mberne/data
+		sudo rm -rf /home/mberne/data
 
 re:	fclean all
 
