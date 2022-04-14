@@ -6,7 +6,7 @@ down:
 		docker-compose --project-directory=srcs down --volumes
 
 clean:	down
-		docker system prune -a
+		docker system prune -a -f --volumes
 
 fclean:	clean
 		sudo rm -rf /home/mberne/data
